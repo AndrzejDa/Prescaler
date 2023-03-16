@@ -52,9 +52,9 @@ begin
      --clock process definition
     CLOCK_process : process
     begin
-        clk_i <= '0';
-        wait for CLOCK_period/2;
         clk_i <= '1';
+        wait for CLOCK_period/2;
+        clk_i <= '0';
         wait for CLOCK_period/2;
     end process;
     
