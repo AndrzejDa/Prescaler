@@ -20,57 +20,66 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
+-- Uncomment the following library declaration if using
+-- arithmetic functions with Signed or Unsigned values
+--use IEEE.NUMERIC_STD.ALL;
+
+-- Uncomment the following library declaration if instantiating
+-- any Xilinx leaf cells in this code.
+--library UNISIM;
+--use UNISIM.VComponents.all;
+
 entity Prescaler_tb is
 --  Port ( );
 end Prescaler_tb;
 
 architecture Behavioral of Prescaler_tb is
-    component Prescaler
-        Port (clk_i : in STD_LOGIC;
-        rst_i : in STD_LOGIC;
-        led_o : out STD_LOGIC);
-    end component;
 
+component Prescaler
+	port(
+		clk_i : IN  std_logic;
+		rst_i : IN  std_logic;
+		led_o : OUT std_logic
+	);
+	end component;
+    
     --inputs
-    signal clk_i : std_logic;
-    signal rst_i : std_logic;
-    
+    signal clk_i : std_logic := '0';
+    signal rst_i : std_logic := '0';
     --outputs
-    signal led_o : std_logic;
+    signal led_o : std_logic := '0';
     
-    --constants
+    --constant values
     constant CLOCK_period : time := 20 ns;
     constant delay : time := 10 ns;
     
 begin
-    uut: Prescaler PORT MAP(
+
+--unit under test
+uut: Prescaler port map(
         clk_i => clk_i,
         rst_i => rst_i,
         led_o => led_o
      );
-     
-     --clock process definition
-    CLOCK_process : process
+
+CLOCK_process : process
     begin
         clk_i <= '1';
         wait for CLOCK_period/2;
         clk_i <= '0';
         wait for CLOCK_period/2;
     end process;
-    
-    -- stimulus process
-    stim_proc: process
-    begin
-        --wait for 10 ns; 
+
+Reset_process : process
+    begin       
         rst_i <= '1';
-        wait for 10 ns;
+        wait for delay;
         rst_i <= '0';
-        wait for 700 ns;
+        wait for 1500 ns;
         rst_i <= '1';
-        wait for 10 ns;
+        wait for delay;
         rst_i <= '0';     
         wait;
     end process;
-
-
+    
 end Behavioral;
